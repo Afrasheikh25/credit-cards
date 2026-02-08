@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tanzeem Ahmed | Credit Cards</title>
+
+<style>
+body{
+ margin:0;
+ font-family:Segoe UI, sans-serif;
+ background:#0f172a;
+ color:white;
+}
+header{
+ padding:60px;
+ text-align:center;
+ background:linear-gradient(135deg,#1d4ed8,#2563eb);
+}
+.cards{
+ padding:40px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:25px;
+}
+.card{
+ background:#020617;
+ border-radius:20px;
+ padding:20px;
+ text-align:center;
+ box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+.card img{
+ width:100%;
+ max-width:220px;
+}
+.btn{
+ background:#22c55e;
+ border:none;
+ padding:12px 24px;
+ border-radius:25px;
+ font-weight:bold;
+ cursor:pointer;
+ margin:6px;
+}
+.close{background:#ef4444;color:white;}
+.pdf{
+ display:inline-block;
+ background:#38bdf8;
+ color:black;
+ padding:10px 18px;
+ border-radius:20px;
+ text-decoration:none;
+ margin-top:10px;
+}
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.85);
+ justify-content:center;
+ align-items:center;
+}
+.modal-box{
+ background:white;
+ color:black;
+ padding:30px;
+ width:90%;
+ max-width:900px;
+ border-radius:20px;
+ max-height:90vh;
+ overflow:auto;
+}
+.subcards{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:20px;
+}
+.subcard{
+ background:#e5e7eb;
+ color:black;
+ padding:20px;
+ border-radius:15px;
+ text-align:center;
+}
+input,textarea{
+ width:100%;
+ padding:8px;
+ margin:6px 0;
+}
+.success{
+ color:green;
+ font-weight:bold;
+ display:none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Hi, it’s me Tanzeem Ahmed 👋</h1>
+<p>Explore • Compare • Rate • Apply Credit Cards</p>
+</header>
+
+<section class="cards">
+<div class="card"><img src="images/red.png"><h3>RAKBANK RED CARD</h3><button class="btn" onclick="openCard('red')">View Details</button></div>
+<div class="card"><img src="images/airarabia.png"><h3>Air Arabia Card</h3><button class="btn" onclick="openCard('air')">View Details</button></div>
+<div class="card"><img src="images/cbdone.png"><h3>CBD One</h3><button class="btn" onclick="openCard('cbdone')">View Details</button></div>
+<div class="card"><img src="images/supersaver.png"><h3>CBD Supersaver</h3><button class="btn" onclick="openCard('supersaver')">View Details</button></div>
+<div class="card"><img src="images/du.png"><h3>Du Titanium</h3><button class="btn" onclick="openCard('du')">View Details</button></div>
+<div class="card"><img src="./fab.jpeg"><h3>FAB Indulge</h3><button class="btn" onclick="openCard('fab')">View Details</button></div>
+<div class="card"><img src="images/blue.png"><h3>Blue Platinum</h3><button class="btn" onclick="openCard('blue')">View Details</button></div>
+<div class="card"><img src="images/mashreq.png"><h3>Mashreq Cards</h3><button class="btn" onclick="openMashreq()">View Cards</button></div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-box" id="modalBox"></div>
+</div>
+
+<script>
+let selectedCard="";
+
+function openCard(type){
+selectedCard=type;
+modal.style.display="flex";
+modalBox.innerHTML=cardDetails[type];
+}
+
+function openMashreq(){
+modal.style.display="flex";
+modalBox.innerHTML=`
+<h2>Mashreq Credit Cards</h2>
+<div class="subcards">
+
+<div class="subcard">
+<img src="images/mashreq-cashback.png">
+<h3>Mashreq Cashback Card</h3>
+<p><b>Benefits:</b> Up to AED 500 cashback, Free for life</p>
+<p><b>Uses:</b> Daily shopping & fuel</p>
+<p><b>Price:</b> AED 0</p>
+<a class="pdf" href="pdfs/CASHBACK CARD 500 AED .pdf" target="_blank">View PDF</a>
+<button class="btn" onclick="openApply('Mashreq Cashback Card')">Apply Now</button>
+</div>
+
+<div class="subcard">
+<img src="images/mashreq-blue.png">
+<h3>Mashreq Blue Platinum</h3>
+<p><b>Benefits:</b> Lounge access, Travel offers</p>
+<p><b>Uses:</b> Travel & international spends</p>
+<p><b>Price:</b> AED 3000 / year</p>
+<a class="pdf" href="pdfs/Blue Platinum.pdf" target="_blank">View PDF</a>
+<button class="btn" onclick="openApply('Mashreq Blue Platinum')">Apply Now</button>
+</div>
+
+</div>
+<button class="btn close" onclick="closeModal()">Close</button>
+`;
+}
+
+function openApply(card){
+selectedCard=card;
+modalBox.innerHTML=applyForm(card);
+}
+
+function closeModal(){modal.style.display="none";}
+
+function submitForm(){
+const n=document.getElementById("name").value;
+const e=document.getElementById("email").value;
+const m=document.getElementById("msg").value;
+if(!n||!e||!m){
+ alert("Please fill all fields");
+ return;
+}
+document.getElementById("done").style.display="block";
+setTimeout(closeModal,2000);
+}
+
+function applyForm(card){
+return `
+<h2>Apply for ${card}</h2>
+<input id="name" placeholder="Your Name">
+<input id="email" type="email" placeholder="Email">
+<textarea id="msg" placeholder="Why did you choose this card?"></textarea>
+<button class="btn" onclick="submitForm()">Submit</button>
+<p class="success" id="done">✅ Application submitted successfully!</p>
+<button class="btn close" onclick="closeModal()">Close</button>
+`;
+}
+
+const cardDetails={
+red:<h2>RAKBANK RED CARD</h2><p>Benefits: Cashback, Lounge</p><p>Uses: Daily spend</p><p>Price: Free</p><a class="pdf" href="pdfs/Air Arabia & RED CARD - CVP.pdf" target="_blank">View PDF</a><br><button class="btn" onclick="openApply('RAKBANK RED CARD')">Apply Now</button><button class="btn close" onclick="closeModal()">Close</button>,
+air:<h2>Air Arabia Card</h2><p>Benefits: Free flights</p><p>Uses: Travel</p><p>Price: AED 2500</p><a class="pdf" href="pdfs/Air Arabia & RED CARD - CVP.pdf" target="_blank">View PDF</a><br><button class="btn" onclick="openApply('Air Arabia Card')">Apply Now</button><button class="btn close" onclick="closeModal()">Close</button>,
+cbdone:<h2>CBD One</h2><p>Benefits: Cashback</p><p>Uses: Shopping</p><p>Price: Free</p><a class="pdf" href="pdfs/CBD One - Sales - 15Sept2025 [LowRes].pdf" target="_blank">View PDF</a><br><button class="btn" onclick="openApply('CBD One')">Apply Now</button><button class="btn close" onclick="closeModal()">Close</button>,
+supersaver:<h2>CBD Supersaver</h2><p>Benefits: 10% cashback</p><p>Uses: Bills & fuel</p><p>Price: AED 3000</p><a class="pdf" href="pdfs/CBD Supersaver - Sales - 15Sept2025 [LowRes].pdf" target="_blank">View PDF</a><br><button class="btn" onclick="openApply('CBD Supersaver')">Apply Now</button><button class="btn close" onclick="closeModal()">Close</button>,
+du:<h2>Du Titanium</h2><p>Benefits: Telecom offers</p><p>Uses: Utilities</p><p>Price: AED 0</p><a class="pdf" href="pdfs/Du Titanium.pdf" target="_blank">View PDF</a><br><button class="btn" onclick="openApply('Du Titanium')">Apply Now</button><button class="btn close" onclick="closeModal()">Close</button>,
+fab:<h2>FAB Indulge</h2><p>Benefits: Dining offers</p><p>Uses: Shopping</p><p>Price: AED 2500</p><a class="pdf" href="pdfs/FAB Indulge Card.pdf" target="_blank">View PDF</a><br><button class="btn" onclick="openApply('FAB Indulge')">Apply Now</button><button class="btn close" onclick="closeModal()">Close</button>,
+blue:<h2>Blue Platinum</h2><p>Benefits: Premium travel</p><p>Uses: International</p><p>Price: AED 3000</p><a class="pdf" href="pdfs/Blue Platinum.pdf" target="_blank">View PDF</a><br><button class="btn" onclick="openApply('Blue Platinum')">Apply Now</button><button class="btn close" onclick="closeModal()">Close</button>
+};
+</script>
+
+</body>
+</html>
